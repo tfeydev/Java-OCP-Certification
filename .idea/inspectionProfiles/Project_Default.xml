@@ -4,12 +4,14 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="5">
+          <list size="7">
             <item index="0" class="java.lang.String" itemvalue="mat-button" />
             <item index="1" class="java.lang.String" itemvalue="routerLink" />
             <item index="2" class="java.lang.String" itemvalue="mat-tab-link" />
             <item index="3" class="java.lang.String" itemvalue="routerLinkActive" />
             <item index="4" class="java.lang.String" itemvalue="mat-tab-nav-bar" />
+            <item index="5" class="java.lang.String" itemvalue="mat-icon-button" />
+            <item index="6" class="java.lang.String" itemvalue="fullscreen" />
           </list>
         </value>
       </option>
@@ -18,7 +20,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="13">
+          <list size="18">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -32,6 +34,11 @@
             <item index="10" class="java.lang.String" itemvalue="router-outlet" />
             <item index="11" class="java.lang.String" itemvalue="app-home" />
             <item index="12" class="java.lang.String" itemvalue="mat-tab-nav-panel" />
+            <item index="13" class="java.lang.String" itemvalue="mat-icon" />
+            <item index="14" class="java.lang.String" itemvalue="mat-sidenav" />
+            <item index="15" class="java.lang.String" itemvalue="mat-sidenav-container" />
+            <item index="16" class="java.lang.String" itemvalue="mat-sidenav-content" />
+            <item index="17" class="java.lang.String" itemvalue="app-layout" />
           </list>
         </value>
       </option>

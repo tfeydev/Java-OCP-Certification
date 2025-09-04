@@ -1,0 +1,140 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// ----------------------
+// Theme
+// ----------------------
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$blue-palette,
+    tertiary: mat.$green-palette
+  ),
+  typography: (
+    brand-family: 'Roboto, "Helvetica Neue", sans-serif',
+    plain-family: 'Roboto, "Helvetica Neue", sans-serif'
+  ),
+  density: ( scale: 0 )
+));
+
+// ----------------------
+// Generate system tokens and compatible fallback tokens
+// ----------------------
+:root {
+  // generates --mat-sys-... tokens
+  @include mat.all-component-themes($theme);
+
+  // fallback / component-specific tokens for backward compatibility
+  // (mat.get-theme-color returns a color; interpolation required)
+  --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, primary)};
+  --mat-toolbar-container-text-color: #{mat.get-theme-color($theme, on-primary)};
+  --mat-surface-container-low: #{mat.get-theme-color($theme, surface-container-low)};
+
+  /* Layout helper */
+  --app-toolbar-height: 64px;
+}
+
+@media (max-width: 599px) {
+  :root { --app-toolbar-height: 56px; }
+}
+
+// ----------------------
+// Global page baseline
+// ----------------------
+html, body {
+  height: 100%;
+}
+
+html { height: 100%; }
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ----------------------
+// App layout helpers
+// ----------------------
+.app-drawer-container {
+  height: calc(100vh - var(--app-toolbar-height));
+}
+
+.app-content {
+  padding: 16px;
+}
+
+// ----------------------
+// Theme-compliant, minimally-invasive overrides
+// - only color / z-index / pointer-events
+// - no structural rules (display/height/padding) to avoid breaking functionality
+// ----------------------
+
+/* Toolbar: color and text color. Do not change layout attributes. */
+mat-toolbar {
+  background: var(--mat-toolbar-container-background-color, var(--mat-sys-primary));
+  color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-primary));
+  position: relative; /* safe stacking context */
+  z-index: 2000;
+  pointer-events: auto;
+}
+
+/* Sidenav: background only as surface-container. No display/transform rules. */
+mat-sidenav {
+  background: var(--mat-surface-container-low, var(--mat-sys-surface-container));
+  color: var(--mat-sys-on-surface);
+  pointer-events: auto;
+}
+
+mat-sidenav-content {
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+/* Drawer in over mode should appear above overlays and accept clicks */
+mat-drawer.mat-drawer-over {
+  z-index: 2200 !important;
+  pointer-events: auto !important;
+}
+
+/* Bring overlay container to a consistent z-index level */
+.cdk-overlay-container,
+.cdk-overlay-backdrop,
+.cdk-overlay-pane {
+  z-index: 2100 !important;
+}
+
+/* Small accessibility improvement for toolbar buttons */
+mat-toolbar button {
+  outline: none;
+}
+
+/* toolbar icons white */
+mat-toolbar {
+  color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-primary));
+}
+
+mat-toolbar mat-icon,
+mat-toolbar button.mat-icon-button,
+mat-toolbar .mat-icon-button {
+  color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-primary));
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* Debug helpers (enable only when needed) */
+/*
+mat-sidenav { outline: 1px dashed rgba(0,0,0,0.08); }
+mat-toolbar { outline: 1px dashed rgba(0,0,0,0.06); }
+*/
+
+// ----------------------
+// Notes
+// ----------------------
+// 1) Place this file in the global styles.scss (or the global stylesheet referenced in angular.json).
+// 2) @include mat.all-component-themes($theme) must appear before overrides (satisfied here).
+// 3) Avoid structural overrides (display, transform, height, padding) for Material components.
+// 4) If components use ShadowDom encapsulation, tokens must be set on the host or overridden inside the component.
