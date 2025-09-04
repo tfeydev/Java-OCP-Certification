@@ -27,6 +27,13 @@ import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 export class Drawer {
   @ViewChild('sidenav') public sidenav!: MatSidenav;
 
+  sidenavLinks = [
+    { name: 'Java 21 API', url: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html' },
+    { name: 'OCP Exam 1Z0-830', url: 'https://education.oracle.com/java-se-21-developer-professional/pexam_1Z0-830' },
+    { name: 'Tim Buchalka Masterclass', url: 'https://www.udemy.com/course/java-the-complete-java-developer-course/' },
+    { name: 'Oracle ADB', url: 'https://www.oracle.com/cloud/database/autonomous-database/' }
+  ];
+
   toggle(): void {
     this.sidenav.toggle();
   }
