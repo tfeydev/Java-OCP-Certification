@@ -14,11 +14,18 @@ import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
     <!-- Sidenav-Container -->
     <mat-sidenav-container class="app-drawer-container">
       <mat-sidenav #sidenav mode="over">
-        sidenav bar
+        <div class="sidenav-content">
+          <h3>Important Links</h3>
+          <ul>
+            @for (link of sidenavLinks; track link) {
+              <li>
+                <a [href]="link.url" target="_blank" class="sidenav-link">{{ link.name }}</a>
+              </li>
+            }
+          </ul>
+        </div>
       </mat-sidenav>
-
       <mat-sidenav-content class="app-content">
-        <!-- Nur der Inhalts-Slot landet hier -->
         <ng-content select="[appContent]"></ng-content>
       </mat-sidenav-content>
     </mat-sidenav-container>
@@ -31,7 +38,7 @@ export class Drawer {
     { name: 'Java 21 API', url: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html' },
     { name: 'OCP Exam 1Z0-830', url: 'https://education.oracle.com/java-se-21-developer-professional/pexam_1Z0-830' },
     { name: 'Tim Buchalka Masterclass', url: 'https://www.udemy.com/course/java-the-complete-java-developer-course/' },
-    { name: 'Oracle ADB', url: 'https://www.oracle.com/cloud/database/autonomous-database/' }
+    { name: 'OCI', url: 'https://cloud.oracle.com/?region=sa-saopaulo-1' }
   ];
 
   toggle(): void {

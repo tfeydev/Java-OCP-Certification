@@ -1,53 +1,36 @@
 @use '@angular/material' as mat;
-
 @include mat.core();
 
-// ----------------------
 // Theme
-// ----------------------
 $theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$blue-palette,
-    tertiary: mat.$green-palette
-  ),
-  typography: (
-    brand-family: 'Roboto, "Helvetica Neue", sans-serif',
-    plain-family: 'Roboto, "Helvetica Neue", sans-serif'
-  ),
-  density: ( scale: 0 )
+  color: (theme-type: light, primary: mat.$blue-palette, tertiary: mat.$green-palette),
+  typography: (brand-family: 'Roboto, "Helvetica Neue", sans-serif', plain-family: 'Roboto, "Helvetica Neue", sans-serif'),
+  density: (scale: 0)
 ));
 
-// ----------------------
 // Generate system tokens and compatible fallback tokens
-// ----------------------
 :root {
-  // generates --mat-sys-... tokens
   @include mat.all-component-themes($theme);
-
-  // fallback / component-specific tokens for backward compatibility
-  // (mat.get-theme-color returns a color; interpolation required)
   --mat-toolbar-container-background-color: #{mat.get-theme-color($theme, primary)};
   --mat-toolbar-container-text-color: #{mat.get-theme-color($theme, on-primary)};
   --mat-surface-container-low: #{mat.get-theme-color($theme, surface-container-low)};
-
   /* Layout helper */
   --app-toolbar-height: 64px;
 }
 
 @media (max-width: 599px) {
-  :root { --app-toolbar-height: 56px; }
+  :root {
+    --app-toolbar-height: 56px;
+  }
 }
 
-// ----------------------
 // Global page baseline
-// ----------------------
 html, body {
   height: 100%;
 }
-
-html { height: 100%; }
-
+html {
+  height: 100%;
+}
 body {
   margin: 0;
   height: 100%;
@@ -56,85 +39,148 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// ----------------------
 // App layout helpers
-// ----------------------
 .app-drawer-container {
   height: calc(100vh - var(--app-toolbar-height));
 }
-
 .app-content {
   padding: 16px;
 }
 
-// ----------------------
 // Theme-compliant, minimally-invasive overrides
-// - only color / z-index / pointer-events
-// - no structural rules (display/height/padding) to avoid breaking functionality
-// ----------------------
-
-/* Toolbar: color and text color. Do not change layout attributes. */
 mat-toolbar {
   background: var(--mat-toolbar-container-background-color, var(--mat-sys-primary));
   color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-primary));
-  position: relative; /* safe stacking context */
+  position: relative;
   z-index: 2000;
   pointer-events: auto;
 }
-
-/* Sidenav: background only as surface-container. No display/transform rules. */
 mat-sidenav {
   background: var(--mat-surface-container-low, var(--mat-sys-surface-container));
   color: var(--mat-sys-on-surface);
   pointer-events: auto;
 }
-
 mat-sidenav-content {
   background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
 }
-
-/* Drawer in over mode should appear above overlays and accept clicks */
 mat-drawer.mat-drawer-over {
   z-index: 2200 !important;
   pointer-events: auto !important;
 }
-
-/* Bring overlay container to a consistent z-index level */
-.cdk-overlay-container,
-.cdk-overlay-backdrop,
-.cdk-overlay-pane {
+.cdk-overlay-container, .cdk-overlay-backdrop, .cdk-overlay-pane {
   z-index: 2100 !important;
 }
-
-/* Small accessibility improvement for toolbar buttons */
 mat-toolbar button {
   outline: none;
 }
-
-/* toolbar icons white */
-mat-toolbar {
-  color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-primary));
-}
-
-mat-toolbar mat-icon,
-mat-toolbar button.mat-icon-button,
-mat-toolbar .mat-icon-button {
+mat-toolbar mat-icon, mat-toolbar button.mat-icon-button, mat-toolbar .mat-icon-button {
   color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-primary));
   fill: currentColor;
   stroke: currentColor;
 }
+.main-content {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - var(--app-toolbar-height));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/images/background.jpg') center/cover no-repeat;
+    opacity: 0.5;
+    z-index: -1;
+  }
+}
+.overlay {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 2rem;
+  border-radius: 6px;
+  width: 90%;
+  max-width: 1000px;
+  position: relative;
+  margin-top: 40px;
+}
+
+/* Ergänzungen für mat-sidenav */
+mat-sidenav {
+  width: 250px; /* Feste Breite */
+  padding: 16px 0; /* Vertikaler Innenabstand */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
+}
+
+.sidenav-content {
+  padding: 1rem; /* Innenabstand für den Inhalt */
+}
+
+.sidenav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--mat-sys-on-surface);
+  text-decoration: none;
+
+  &:hover {
+    background-color: #f5f5f5;
+    color: #000;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+mat-tab-group {
+  margin-top: 40px; /* Abstand zu den Tabs von oben – anpassen nach Bedarf (z. B. 40px für mehr) */
+  width: 100%; /* Vollbreite für bessere Darstellung */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
+}
+
+mat-tab-body {
+  padding-top: 20px; /* Bestehender Abstand */
+  padding: 16px; /* Allgemeiner Innenabstand */
+}
+
+mat-tab-content {
+  background: var(--mat-sys-surface-container-low); /* Leichter Hintergrund */
+  border-radius: 4px; /* Sanfte Kanten */
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: var(--mat-sys-on-surface);
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 1rem 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--mat-sys-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
 /* Debug helpers (enable only when needed) */
-/*
 mat-sidenav { outline: 1px dashed rgba(0,0,0,0.08); }
 mat-toolbar { outline: 1px dashed rgba(0,0,0,0.06); }
-*/
 
-// ----------------------
-// Notes
-// ----------------------
-// 1) Place this file in the global styles.scss (or the global stylesheet referenced in angular.json).
-// 2) @include mat.all-component-themes($theme) must appear before overrides (satisfied here).
-// 3) Avoid structural overrides (display, transform, height, padding) for Material components.
-// 4) If components use ShadowDom encapsulation, tokens must be set on the host or overridden inside the component.
+/* Notes */
